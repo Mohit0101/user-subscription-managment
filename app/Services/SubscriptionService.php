@@ -16,7 +16,7 @@ class SubscriptionService {
 
   public function subscribe(int $userId, int $planId, ?string $promoCode = null): Subscription
   {
-    // 1 user -> 1 active sub
+    // 1 active sub per user
     if ($active = $this->subs->activeForUser($userId)) {
       throw new \DomainException('You already have an active subscription.');
     }
