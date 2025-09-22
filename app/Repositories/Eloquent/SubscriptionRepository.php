@@ -4,6 +4,8 @@ namespace App\Repositories\Eloquent;
 
 use Illuminate\Support\Facades\DB;
 use App\Models\Subscription;
+use App\Repositories\Contracts\SubscriptionRepositoryInterface;
+
 
 class SubscriptionRepository implements SubscriptionRepositoryInterface {
 

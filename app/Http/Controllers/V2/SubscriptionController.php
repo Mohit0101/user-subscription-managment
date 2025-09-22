@@ -9,8 +9,8 @@ use App\Http\Requests\Subscription\PromoApplyRequest;
 
 class SubscriptionController extends Controller
 {
-    public function subscribe(\App\Http\Requests\Subscription\PromoApplyRequest $req) {
-    $s = app(\App\Services\SubscriptionService::class)
+    public function subscribe(PromoApplyRequest $req) {
+    $s = app(SubscriptionService::class)
           ->subscribe($req->user()->id, $req->plan_id, $req->promo_code);
     return response()->json(['subscription'=>$s], 201);
   }

@@ -3,6 +3,7 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Plan;
+use App\Repositories\Contracts\PlanRepositoryInterface;
 
 class PlanRepository implements PlanRepositoryInterface {
     public function all(){ 

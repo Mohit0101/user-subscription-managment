@@ -12,7 +12,7 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    public function __construct(private UserService $users) {}
+  public function __construct(private UserService $users) {}
 
   public function register(RegisterRequest $req) {
     $user = $this->users->register($req->validated());
