@@ -6,25 +6,58 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\Contracts\PlanRepositoryInterface;
 use App\Http\Requests\Plan\PlanRequest;
+use App\Helper\ApiResponse;
+use Throwable;
 
 class PlanController extends Controller
 {
     public function __construct(private PlanRepositoryInterface $plans) {}
 
     public function index() { 
-        return response()->json($this->plans->all());
+        try {
+            $plans = $this->plans->all();
+            if ($plans) {
+                return ApiResponse::success(status: self::SUCCESS_STATUS, message: self::SUCCESS_MESSAGE, data: $plans, statusCode: self::SUCCESS);
+            } else {
+                return ApiResponse::error(status: self::ERROR_STATUS, message: self::FAILED_MESSAGE, statusCode: self::ERROR);
+            }
+        } catch (Throwable $e) {
+            return ApiResponse::error(status: self::ERROR_STATUS, message: self::EXCEPTION_MESSAGE, statusCode: self::ERROR);
+        }
     }
 
     public function store(PlanRequest $req) {
-        return response()->json($this->plans->create($req->validated()), 201);
+        try {
+            $plan = $this->plans->create($req->validated());
+            if ($plan) {
+                return ApiResponse::success(status: self::SUCCESS_STATUS, message: self::SUCCESS_MESSAGE, data: $plan, statusCode: self::SUCCESS);
+            } else {
+                return ApiResponse::error(status: self::ERROR_STATUS, message: self::FAILED_MESSAGE, statusCode: self::ERROR);
+            }
+        } catch (Throwable $e) {
+            return ApiResponse::error(status: self::ERROR_STATUS, message: self::EXCEPTION_MESSAGE, statusCode: self::ERROR);
+        }
     }
 
     public function update(PlanRequest $req, Plan $plan) {
-        return response()->json($this->plans->update($plan, $req->validated()));
+        try {
+            $plan = $this->plans->update($plan, $req->validated());
+            if ($plan) {
+                return ApiResponse::success(status: self::SUCCESS_STATUS, message: self::UPDATE_SUCCESS_MESSAGE, data: $plan, statusCode: self::SUCCESS);
+            } else {
+                return ApiResponse::error(status: self::ERROR_STATUS, message: self::FAILED_MESSAGE, statusCode: self::ERROR);
+            }
+        } catch (Throwable $e) {
+            return ApiResponse::error(status: self::ERROR_STATUS, message: self::EXCEPTION_MESSAGE, statusCode: self::ERROR);
+        }
     }
 
     public function destroy(Request $req, Plan $plan) {
-        $this->plans->delete($plan);
-        return response()->json(['message'=>'Deleted']);
+         try {
+            $this->plans->delete($plan);
+            return ApiResponse::success(status: self::SUCCESS_STATUS, message: self::DELETE_SUCCESS_MESSAGE, statusCode: self::SUCCESS);
+        } catch (Throwable $e) {
+            return ApiResponse::error(status: self::ERROR_STATUS, message: self::EXCEPTION_MESSAGE, statusCode: self::ERROR);
+        }
     }
 }

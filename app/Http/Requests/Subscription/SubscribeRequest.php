@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Subscription;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class SubscribeRequest extends FormRequest
 {
@@ -24,5 +26,15 @@ class SubscribeRequest extends FormRequest
         return [
             'plan_id'=>'required|exists:plans,id'
         ];
+    }
+
+    protected function failedValidation(Validator $validator) {
+        throw new HttpResponseException(
+            response()->json([
+                'sucess' => false,
+                'message' => 'Validation Failed',
+                'errors' => $validator->errors(),
+            ], 422)
+        );
     }
 }

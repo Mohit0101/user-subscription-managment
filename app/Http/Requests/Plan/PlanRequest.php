@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Plan;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class PlanRequest extends FormRequest
 {
@@ -26,5 +28,15 @@ class PlanRequest extends FormRequest
             'price'=>'required|integer|min:0',
             'interval'=>'required|in:month'
         ];
+    }
+
+    protected function failedValidation(Validator $validator) {
+        throw new HttpResponseException(
+            response()->json([
+                'sucess' => false,
+                'message' => 'Validation Failed',
+                'errors' => $validator->errors(),
+            ], 422)
+        );
     }
 }
