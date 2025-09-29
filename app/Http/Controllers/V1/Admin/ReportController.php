@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\ReportService;
 use App\Helper\ApiResponse;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class ReportController extends Controller
@@ -21,6 +22,7 @@ class ReportController extends Controller
                 return ApiResponse::error(status: self::ERROR_STATUS, message: self::FAILED_MESSAGE, statusCode: self::ERROR);
             }
         } catch (Throwable $e) {
+            Log::error('Exception occured'. $e->getMessage());
             return ApiResponse::error(status: self::ERROR_STATUS, message: self::EXCEPTION_MESSAGE, statusCode: self::ERROR);
         }
     }

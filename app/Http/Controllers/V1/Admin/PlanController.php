@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Repositories\Contracts\PlanRepositoryInterface;
 use App\Http\Requests\Plan\PlanRequest;
 use App\Helper\ApiResponse;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class PlanController extends Controller
@@ -22,6 +23,7 @@ class PlanController extends Controller
                 return ApiResponse::error(status: self::ERROR_STATUS, message: self::FAILED_MESSAGE, statusCode: self::ERROR);
             }
         } catch (Throwable $e) {
+            Log::error('Exception occured'. $e->getMessage());
             return ApiResponse::error(status: self::ERROR_STATUS, message: self::EXCEPTION_MESSAGE, statusCode: self::ERROR);
         }
     }
@@ -35,6 +37,7 @@ class PlanController extends Controller
                 return ApiResponse::error(status: self::ERROR_STATUS, message: self::FAILED_MESSAGE, statusCode: self::ERROR);
             }
         } catch (Throwable $e) {
+            Log::error('Exception occured'. $e->getMessage());
             return ApiResponse::error(status: self::ERROR_STATUS, message: self::EXCEPTION_MESSAGE, statusCode: self::ERROR);
         }
     }
@@ -48,6 +51,7 @@ class PlanController extends Controller
                 return ApiResponse::error(status: self::ERROR_STATUS, message: self::FAILED_MESSAGE, statusCode: self::ERROR);
             }
         } catch (Throwable $e) {
+            Log::error('Exception occured'. $e->getMessage());
             return ApiResponse::error(status: self::ERROR_STATUS, message: self::EXCEPTION_MESSAGE, statusCode: self::ERROR);
         }
     }
@@ -57,6 +61,7 @@ class PlanController extends Controller
             $this->plans->delete($plan);
             return ApiResponse::success(status: self::SUCCESS_STATUS, message: self::DELETE_SUCCESS_MESSAGE, statusCode: self::SUCCESS);
         } catch (Throwable $e) {
+            Log::error('Exception occured'. $e->getMessage());
             return ApiResponse::error(status: self::ERROR_STATUS, message: self::EXCEPTION_MESSAGE, statusCode: self::ERROR);
         }
     }

@@ -10,6 +10,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Helper\ApiResponse;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class AuthController extends Controller
